@@ -1,0 +1,21 @@
+# Excel reports #
+###################
+*.xlsx
+# zip files #
+###################
+*.zip
+# config files #
+###################
+*.config
+# Log files #
+###################
+*.log
+# Dll files #
+###################
+*.dll
+# XML files #
+###################
+*.xml
+# VSCode files #
+###################
+settings.json
