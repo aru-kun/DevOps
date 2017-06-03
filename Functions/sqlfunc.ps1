@@ -28,7 +28,7 @@ function ConnectTo-SQL
     $Command.CommandTimeout = 600
     if ($GetTableOutput)
     {
-        $Table = new-object [System.Data.DataTable]
+        $Table = new-object System.Data.DataTable
         $Result = $Command.ExecuteReader()
         $Table.Load($Result)
         $Connection.Close()
@@ -36,14 +36,7 @@ function ConnectTo-SQL
     }
     else
     {
-        $Command.ExecuteReader()
+        $null = $Command.ExecuteReader()
         $Connection.Close()
     }
-    <#
-    if ($Insert)
-    {
-        $Command.ExecuteReader()
-        $Connection.Close()
-    }
-    #>
 }
