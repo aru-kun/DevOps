@@ -64,6 +64,7 @@ function ConnectTo-SQL
         $Result = $Command.ExecuteReader()
         if ($Result.HasRows)
         {
+            Write-Verbose "Result has rows, filling table"
             $Table = new-object System.Data.DataTable
             $Table.Load($Result)
             $Connection.Close()
@@ -71,7 +72,8 @@ function ConnectTo-SQL
         }
         else
         {
-            Write-Output "Query did not return any results"
+            Write-Output "null"
+            Write-Verbose "Query did not return any results"
             $Connection.Close()
         }
     }
