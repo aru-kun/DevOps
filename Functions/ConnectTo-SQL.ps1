@@ -4,6 +4,7 @@ function ConnectTo-SQL
     (
         [Parameter(Mandatory = $false, ParameterSetName = "TrustedConnection", HelpMessage = "Name of SQL server. Default value is 'localhost'")]
         [Parameter(Mandatory = $false, ParameterSetName = "SQLUser", HelpMessage = "Name of SQL server. Default value is 'localhost'")]
+        [Alias('Server', 'ServerName', 'IPAddress')]
         [string]$SQLServer = 'localhost',
         [Parameter(Mandatory = $false, ParameterSetName = "TrustedConnection", HelpMessage = "Name of SQL database. Default value is 'master'")]
         [Parameter(Mandatory = $false, ParameterSetName = "SQLUser", HelpMessage = "Name of SQL database. Default value is 'master'")]
