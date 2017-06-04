@@ -72,9 +72,9 @@ function ConnectTo-SQL
         }
         else
         {
-            Write-Output "null"
             Write-Verbose "Query did not return any results"
             $Connection.Close()
+            return $null
         }
     }
     else
