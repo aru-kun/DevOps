@@ -2,34 +2,38 @@ function ConnectTo-SQL
 {
     param
     (
-        [Parameter(Mandatory = $false,ParameterSetName="TrustedConnection",HelpMessage = "Name of SQL server. Default value is 'localhost'")]
-        [Parameter(Mandatory = $false,ParameterSetName="SQLUser",HelpMessage = "Name of SQL server. Default value is 'localhost'")]
+        [Parameter(Mandatory = $false, ParameterSetName = "TrustedConnection", HelpMessage = "Name of SQL server. Default value is 'localhost'")]
+        [Parameter(Mandatory = $false, ParameterSetName = "SQLUser", HelpMessage = "Name of SQL server. Default value is 'localhost'")]
         [string]$SQLServer = 'localhost',
-        [Parameter(Mandatory = $false,ParameterSetName="TrustedConnection",HelpMessage = "Name of SQL database. Default value is 'master'")]
-        [Parameter(Mandatory = $false,ParameterSetName="SQLUser",HelpMessage = "Name of SQL database. Default value is 'master'")]
+        [Parameter(Mandatory = $false, ParameterSetName = "TrustedConnection", HelpMessage = "Name of SQL database. Default value is 'master'")]
+        [Parameter(Mandatory = $false, ParameterSetName = "SQLUser", HelpMessage = "Name of SQL database. Default value is 'master'")]
         [string]$Database = 'master',
-        [Parameter(Mandatory = $True,ParameterSetName="TrustedConnection",HelpMessage = "Query to be executed, avoid using sql comments '--'")]
-        [Parameter(Mandatory = $True,ParameterSetName="SQLUser",HelpMessage = "Query to be executed, avoid using sql comments '--'")]
+        [Parameter(Mandatory = $True, ParameterSetName = "TrustedConnection", HelpMessage = "Query to be executed, avoid using sql comments '--'")]
+        [Parameter(Mandatory = $True, ParameterSetName = "SQLUser", HelpMessage = "Query to be executed, avoid using sql comments '--'")]
+        [Alias('Query')]
         [string]$SQLQuery = $null,
-        [Parameter(Mandatory = $false,ParameterSetName="TrustedConnection",HelpMessage = "Timeout value for query in seconds. Default value is 600")]
-        [Parameter(Mandatory = $false,ParameterSetName="SQLUser",HelpMessage = "Timeout value for query in seconds. Default value is 600")]
+        [Parameter(Mandatory = $false, ParameterSetName = "TrustedConnection", HelpMessage = "Timeout value for query in seconds. Default value is 600")]
+        [Parameter(Mandatory = $false, ParameterSetName = "SQLUser", HelpMessage = "Timeout value for query in seconds. Default value is 600")]
+        [Alias('Timeout', 'CommandTimeout')]
         [int]$QueryTimeout = 30,
-        [Parameter(Mandatory = $false,ParameterSetName="TrustedConnection",HelpMessage = "Turn switch on only if a returned data table is desired")]
-        [Parameter(Mandatory = $false,ParameterSetName="SQLUser",HelpMessage = "Turn switch on only if a returned data table is desired")]
+        [Parameter(Mandatory = $false, ParameterSetName = "TrustedConnection", HelpMessage = "Turn switch on only if a returned data table is desired")]
+        [Parameter(Mandatory = $false, ParameterSetName = "SQLUser", HelpMessage = "Turn switch on only if a returned data table is desired")]
         [switch]$GetTableOutput,
-        [Parameter(Mandatory = $false,ParameterSetName="SQLUser",HelpMessage = "Specify username if connection requires sql authentication.")]
+        [Parameter(Mandatory = $false, ParameterSetName = "SQLUser", HelpMessage = "Specify username if connection requires sql authentication.")]
+        [Alias('user')]
         [string]$Username = $null,
-        [Parameter(Mandatory = $true,ParameterSetName="SQLUser",HelpMessage = "Specify Password if connection requires sql authentication.")]
+        [Parameter(Mandatory = $true, ParameterSetName = "SQLUser", HelpMessage = "Specify Password if connection requires sql authentication.")]
+        [Alias('pwd')]
         [string]$Password = $null
     )
     #Create connection object
     $Connection = New-Object System.Data.SQLClient.SQLConnection
     #build dbconnectionstring
-     switch($PsCmdlet.ParameterSetName)
-     {
+    switch ($PsCmdlet.ParameterSetName)
+    {
         "TrustedConnection" {$ConnectionString = "server='$($SQLServer)';database='$($Database)';trusted_connection=true;"}
-        "SQLUser"           {$ConnectionString = "server='$($SQLServer)';database='$($Database)';User ID = '$($Username)';Password = '$($Password)';"}
-     }
+        "SQLUser" {$ConnectionString = "server='$($SQLServer)';database='$($Database)';User ID = '$($Username)';Password = '$($Password)';"}
+    }
     $Connection.ConnectionString = $ConnectionString
     #Open connection
     $Connection.Open()
