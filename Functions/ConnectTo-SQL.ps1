@@ -62,16 +62,17 @@ function ConnectTo-SQL
     if ($GetTableOutput)
     {
         $Result = $Command.ExecuteReader()
-        $Connection.Close()
-        if ($Result)
+        if ($Result.HasRows)
         {
             $Table = new-object System.Data.DataTable
             $Table.Load($Result)
+            $Connection.Close()
             return $Table
         }
         else
         {
             Write-Output "Query did not return any results"
+            $Connection.Close()
         }
     }
     else
