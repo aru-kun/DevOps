@@ -16,9 +16,9 @@ function ConnectTo-SQL
         [Parameter(Mandatory = $false, ParameterSetName = "SQLUser", HelpMessage = "Timeout value for query in seconds. Default value is 600")]
         [Alias('Timeout', 'CommandTimeout')]
         [int]$QueryTimeout = 30,
-        [Parameter(Mandatory = $false, ParameterSetName = "TrustedConnection", HelpMessage = "Port number for connection")]
-        [Parameter(Mandatory = $false, ParameterSetName = "SQLUser", HelpMessage = "Port number for connection")]
-        [int]$Port = $null,
+        [Parameter(Mandatory = $false, ParameterSetName = "TrustedConnection", HelpMessage = "Port number for SQL connection. Default value is 1433")]
+        [Parameter(Mandatory = $false, ParameterSetName = "SQLUser", HelpMessage = "Port number for SQL connection. Default value is 1433")]
+        [int]$Port = 1433,
         [Parameter(Mandatory = $false, ParameterSetName = "TrustedConnection", HelpMessage = "Turn switch on only if a returned data table is desired")]
         [Parameter(Mandatory = $false, ParameterSetName = "SQLUser", HelpMessage = "Turn switch on only if a returned data table is desired")]
         [switch]$GetTableOutput,
@@ -34,26 +34,8 @@ function ConnectTo-SQL
     #build dbconnectionstring
     switch ($PsCmdlet.ParameterSetName)
     {
-        "TrustedConnection" {
-                                if($Port)
-                                {
-                                    $ConnectionString = "Data Source=$($SQLServer),$($Port);database='$($Database)';trusted_connection=true;"
-                                }
-                                else
-                                {
-                                    $ConnectionString = "server='$($SQLServer)';database='$($Database)';trusted_connection=true;"
-                                }
-                            }
-        "SQLUser" {
-                        if($Port)
-                        {
-                        $ConnectionString = "Data Source=$($SQLServer),$($Port);database='$($Database)';User ID = '$($Username)';Password = '$($Password)';"
-                        }
-                        else
-                        {
-                        $ConnectionString = "server='$($SQLServer)';database='$($Database)';User ID = '$($Username)';Password = '$($Password)';"
-                        }
-                }
+        "TrustedConnection" {$ConnectionString = "server=$($SQLServer),$($Port);database='$($Database)';trusted_connection=true;"}
+        "SQLUser" {$ConnectionString = "server=$($SQLServer),$($Port);database='$($Database)';User ID = '$($Username)';Password = '$($Password)';"}
     }
     $Connection.ConnectionString = $ConnectionString
     #Open connection
