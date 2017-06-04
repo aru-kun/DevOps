@@ -30,23 +30,28 @@ function ConnectTo-SQL
         [Alias('pwd')]
         [string]$Password = $null
     )
-    #Create connection object
+    Write-Verbose "Creating connection object"
     $Connection = New-Object System.Data.SQLClient.SQLConnection
-    #build dbconnectionstring
+    Write-Verbose "Building dbconnectionstring"
+    Write-Verbose "ParameterSetName: $($PsCmdlet.ParameterSetName)"
     switch ($PsCmdlet.ParameterSetName)
     {
         "TrustedConnection" {$ConnectionString = "server=$($SQLServer),$($Port);database='$($Database)';trusted_connection=true;"}
         "SQLUser" {$ConnectionString = "server=$($SQLServer),$($Port);database='$($Database)';User ID = '$($Username)';Password = '$($Password)';"}
     }
+    Write-Verbose "ConnectionString: $($ConnectionString)"
     $Connection.ConnectionString = $ConnectionString
-    #Open connection
+    Write-Verbose "Opening Connection"
     $Connection.Open()
     #Create command object
     $Command = New-Object System.Data.SQLClient.SQLCommand
-    #Give command all the pieces it needs to run
+    Write-Verbose "Building Command object"
+    Write-Verbose "Timeout: $($QueryTimeout)"
+    Write-Verbose "Query: `r`n$($SQLQuery)"
     $Command.Connection = $Connection
     $Command.CommandText = $SQLQuery
     $Command.CommandTimeout = $QueryTimeout
+    Write-Verbose "Running Query"
     #Validate if the GetTableOutput switch is on and if so then it return a table
     if ($GetTableOutput)
     {
