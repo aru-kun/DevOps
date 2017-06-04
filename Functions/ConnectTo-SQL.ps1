@@ -90,8 +90,8 @@ function ConnectTo-SQL
         [ValidatePattern('.+')]
         [Alias('Query')]
         [string]$SQLQuery = $null,
-        [Parameter(Mandatory = $false, ParameterSetName = "TrustedConnection", HelpMessage = "Timeout value for query in seconds. Default value is 600")]
-        [Parameter(Mandatory = $false, ParameterSetName = "SQLUser", HelpMessage = "Timeout value for query in seconds. Default value is 600")]
+        [Parameter(Mandatory = $false, ParameterSetName = "TrustedConnection", HelpMessage = "Timeout value for query in seconds. Default value is 30")]
+        [Parameter(Mandatory = $false, ParameterSetName = "SQLUser", HelpMessage = "Timeout value for query in seconds. Default value is 30")]
         [Alias('Timeout', 'CommandTimeout')]
         [int]$QueryTimeout = 30,
         [Parameter(Mandatory = $false, ParameterSetName = "TrustedConnection", HelpMessage = "Port number for SQL connection. Default value is 1433")]
